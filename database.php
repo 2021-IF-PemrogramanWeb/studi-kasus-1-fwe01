@@ -1,4 +1,15 @@
 <?php
+//Setting untuk di server
+//								$servername = "127.0.0.1";
+//								$username = "u939538109_pweb";
+//								$password = "!x=Oi8Uy";
+//								$DBName = "u939538109_pweb";
+
+//Setting untuk di local
+$servername = "127.0.0.1";
+$username = "root";
+$password = "";
+$DBName = "pweb";
 
 class TableRow extends RecursiveArrayIterator
 {
@@ -72,11 +83,12 @@ class TableRow extends RecursiveArrayIterator
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Table using Datatable Library, Connected to a database</h3>
+                            <h3 class="card-title">Table using Datatable Library, Connected to a database with iris
+                                dataset</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="myTable" class="table table-bordered table-hover">
+                            <table id="iris-datatable" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
                                     <th>Sepal Length</th>
@@ -88,21 +100,17 @@ class TableRow extends RecursiveArrayIterator
                                 </thead>
                                 <tbody>
 								<?php
-								//Setting untuk di server
-								$servername = "127.0.0.1"; $username = "u939538109_pweb"; $password = "!x=Oi8Uy"; $DBName = "u939538109_pweb";
-
-								//Setting untuk di local
-//								$servername = "127.0.0.1"; $username = "root"; $password = ""; $DBName = "pweb";
 
 								try {
 									$conn = new PDO("mysql:host=$servername;dbname=$DBName", $username, $password);
 									// set the PDO error mode to exception
 									$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-									//Prepare MySQL statment
+									//Prepare MySQL statement
 									$statement = $conn->prepare("select * from iris");
 									$statement->execute();
-									$results = $statement->setFetchMode(PDO::FETCH_ASSOC);
-									foreach ($statement->fetchAll() as $result) {
+									$statement->setFetchMode(PDO::FETCH_ASSOC);
+									$results = $statement->fetchAll();
+									foreach ($results as $result) {
 										$row = new TableRow($result);
 										echo $row->toRow();
 									}
@@ -127,6 +135,94 @@ class TableRow extends RecursiveArrayIterator
                 </div>
             </div>
             <!-- End Of Table-->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="far fa-chart-bar"></i>
+                                Chart of Reason, Connected to a database with reasons dataset
+                            </h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="bar-chart" style="height: 600px;"></div>
+                        </div>
+                        <!-- /.card-body-->
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Table using Datatable Library, Connected to a database with reasons
+                                dataset</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="reason-datatable" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Reason</th>
+                                    <th>Count</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+								<?php
+								try {
+									$conn = new PDO("mysql:host=$servername;dbname=$DBName", $username, $password);
+									// set the PDO error mode to exception
+									$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+									//Prepare MySQL statement
+									$statement = $conn->prepare(
+										"
+                                            select r.id, r.reason, s.total
+                                            from (
+                                                     select reason_id, count(id) as total
+                                                     from service
+                                                     group by reason_id
+                                                 ) s
+                                            join reasons r on s.reason_id = r.id
+									    "
+									);
+									$statement->execute();
+									$statement->setFetchMode(PDO::FETCH_ASSOC);
+									$results = $statement->fetchAll();
+									$nomor = 1;
+									foreach ($results as $result) {
+										$row = new TableRow($result);
+										echo $row->toRow();
+										$nomor++;
+									}
+								} catch (PDOException $e) {
+									echo "Getting data from database failed: " . $e->getMessage();
+								}
+								?>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Reason</th>
+                                    <th>Count</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
+
         </div><!-- /.container-fluid -->
     </section>
 
@@ -172,11 +268,51 @@ class TableRow extends RecursiveArrayIterator
 <!-- Init data table script-->
 <script>
     $(function () {
-        $("#myTable").DataTable({
+        $("#reason-datatable").DataTable({
+            "responsive": true,
+            "autoWidth": false,
+        });
+        $("#iris-datatable").DataTable({
             "responsive": true,
             "autoWidth": false,
         });
     });
+</script>
+<script>
+    $(function () {
+        var data = []
+        var bar_data = {
+            // data : [[1,10], [2,8], [3,4], [4,13], [5,17], [6,9], ],
+            data: [
+				<?php
+				foreach ($results as $result) {
+					echo '[' . $result['id'] . ', ' . '' . $result['total'] . '],';
+				}
+				?>
+            ],
+            bars: {show: true}
+        }
+        $.plot('#bar-chart', [bar_data], {
+            grid: {
+                borderWidth: 1,
+                borderColor: '#f3f3f3',
+                tickColor: '#f3f3f3'
+            },
+            series: {
+                bars: {
+                    show: true, barWidth: 0.5, align: 'center',
+                },
+            },
+            colors: ['#3c8dbc'],
+        })
+    })
+
+    function labelFormatter(label, series) {
+        return '<div style="font-size:13px; text-align:center; padding:2px; color: #fff; font-weight: 600;">'
+            + label
+            + '<br>'
+            + Math.round(series.percent) + '%</div>'
+    }
 </script>
 </body>
 </html>
