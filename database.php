@@ -1,15 +1,15 @@
 <?php
 //Setting untuk di server
-//								$servername = "127.0.0.1";
-//								$username = "u939538109_pweb";
-//								$password = "!x=Oi8Uy";
-//								$DBName = "u939538109_pweb";
+$servername = "127.0.0.1";
+$username = "u939538109_pweb";
+$password = "!x=Oi8Uy";
+$DBName = "u939538109_pweb";
 
 //Setting untuk di local
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$DBName = "pweb";
+//$servername = "127.0.0.1";
+//$username = "root";
+//$password = "";
+//$DBName = "pweb";
 
 class TableRow extends RecursiveArrayIterator
 {
