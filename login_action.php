@@ -2,8 +2,8 @@
 
 include 'DBConnection.php';
 
-session_start();
 session_unset();
+session_destroy();
 
 $username = $_POST['username'] ?? '';
 $password = $_POST['password'] ?? '';
@@ -12,7 +12,7 @@ $statement = $conn->prepare(
 	"
 	select *
 	from users
-	where BINARY username = '". $username . "'
+	where BINARY username = '" . $username . "'
 	limit 1;
 "
 );
@@ -21,12 +21,15 @@ $statement->execute();
 $statement->setFetchMode(PDO::FETCH_ASSOC);
 $results = $statement->fetchAll();
 
-if (md5($password) === $results['password']){
-	$_SESSION['auth_username'] = $results['username'];
-	$_SESSION['auth_name'] = $results['name'];
-	print_r($_SESSION);
+session_start();
+if (md5($password) == $results[0]['password']) {
+	$_SESSION['auth_username'] = $results[0]['username'];
+	$_SESSION['auth_name'] = $results[0]['name'];
+	header("Location: http://pweb.frederickwilliame.com/loggedin.php");
 }
-//header("Location: http://pweb.frederickwilliame.com/loggedin.php");
-//exit();
+else {
+	echo 'login failed';
+}
+exit();
 
 
