@@ -1,3 +1,8 @@
+<?php
+
+session_start();
+print_r($_SESSION);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,10 +26,11 @@
                 <i class="fa fa-key" aria-hidden="true"></i>
             </div>
 			<?php
-			if (isset($_SESSION['auth'])) {
-                echo "<div class=\"col-lg-12 login-title\"> WELCOME BACK ". $_SESSION['auth_name'] . "</div>";
+			if (isset($_SESSION['auth_name'])) {
+				echo "<div class=\"col-lg-12 login-title\"> WELCOME BACK " . $_SESSION['auth_name'] . "</div>";
 			} else {
-                echo "<div class=\"col-lg-12 login-title\"> YOU'RE NOT LOGGED IN! </div>";
+				print_r($_SESSION);
+				echo "<div class=\"col-lg-12 login-title\"> YOU'RE NOT LOGGED IN! </div>";
 			}
 			?>
             <div class="col-lg-3 col-md-2"></div>
