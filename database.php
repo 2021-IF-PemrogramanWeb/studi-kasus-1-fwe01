@@ -1,15 +1,6 @@
 <?php
-//Setting untuk di server
-$servername = "127.0.0.1";
-$username = "u939538109_pweb";
-$password = "!x=Oi8Uy";
-$DBName = "u939538109_pweb";
 
-//Setting untuk di local
-//$servername = "127.0.0.1";
-//$username = "root";
-//$password = "";
-//$DBName = "pweb";
+include 'DBConnection.php';
 
 class TableRow extends RecursiveArrayIterator
 {
@@ -102,9 +93,6 @@ class TableRow extends RecursiveArrayIterator
 								<?php
 
 								try {
-									$conn = new PDO("mysql:host=$servername;dbname=$DBName", $username, $password);
-									// set the PDO error mode to exception
-									$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 									//Prepare MySQL statement
 									$statement = $conn->prepare("select * from iris");
 									$statement->execute();
@@ -180,9 +168,6 @@ class TableRow extends RecursiveArrayIterator
                                 <tbody>
 								<?php
 								try {
-									$conn = new PDO("mysql:host=$servername;dbname=$DBName", $username, $password);
-									// set the PDO error mode to exception
-									$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 									//Prepare MySQL statement
 									$statement = $conn->prepare(
 										"

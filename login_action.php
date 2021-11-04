@@ -1,5 +1,7 @@
 <?php
 
+include 'DBConnection.php';
+
 session_destroy();
 
 $username = $_POST['username'] ?? '';

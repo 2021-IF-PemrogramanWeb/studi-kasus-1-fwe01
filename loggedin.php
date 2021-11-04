@@ -1,7 +1,6 @@
 <?php
 
 session_start();
-print_r($_SESSION);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,7 +26,9 @@ print_r($_SESSION);
             </div>
 			<?php
 			if (isset($_SESSION['auth_name'])) {
-				echo "<div class=\"col-lg-12 login-title\"> WELCOME BACK " . $_SESSION['auth_name'] . "</div>";
+				echo "<div class=\"col-lg-12 login-title\"> WELCOME BACK " .
+					strtoupper($_SESSION['auth_name'])
+					. "</div>";
 			} else {
 				print_r($_SESSION);
 				echo "<div class=\"col-lg-12 login-title\"> YOU'RE NOT LOGGED IN! </div>";
