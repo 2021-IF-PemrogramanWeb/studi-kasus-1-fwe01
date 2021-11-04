@@ -25,9 +25,9 @@ session_start();
                 <i class="fa fa-key" aria-hidden="true"></i>
             </div>
 			<?php
-			if (isset($_SESSION['auth_name'])) {
+			if (isset($_SESSION['auth_username'])) {
 				echo "<div class=\"col-lg-12 login-title\"> WELCOME BACK " .
-					strtoupper($_SESSION['auth_name'])
+					strtoupper($_SESSION['auth_username'])
 					. "</div>";
 			} else {
 				print_r($_SESSION);
