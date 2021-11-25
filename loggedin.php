@@ -29,7 +29,7 @@ session_start();
 				echo "<div class=\"col-lg-12 login-title\"> WELCOME BACK " .
 					strtoupper($_SESSION['auth_username'])
 					. "</div>";
-                echo '<a href="index.html"> <div class="btn btn-success"> Continue </div>';
+                echo '<br><a href="index.html"> <div class="btn btn-success"> Continue </div>';
 			} else {
 				print_r($_SESSION);
 				echo "<div class=\"col-lg-12 login-title\"> YOU'RE NOT LOGGED IN! </div>";

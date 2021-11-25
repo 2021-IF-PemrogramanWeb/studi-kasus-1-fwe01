@@ -62,6 +62,9 @@ class TableRow extends RecursiveArrayIterator
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1>Graph And Table</h1>
+                    <a  class="float-right" href="logout.php">
+                        <div class="btn btn-outline-danger"> Logout</div>
+                    </a>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
