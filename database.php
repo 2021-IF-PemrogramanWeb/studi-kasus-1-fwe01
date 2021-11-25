@@ -1,5 +1,12 @@
 <?php
 
+session_start();
+
+if (!isset($_SESSION['auth_username'])) {
+	header("Location: login.html");
+	die();
+}
+
 include 'DBConnection.php';
 
 class TableRow extends RecursiveArrayIterator
@@ -91,7 +98,6 @@ class TableRow extends RecursiveArrayIterator
                                 </thead>
                                 <tbody>
 								<?php
-
 								try {
 									//Prepare MySQL statement
 									$statement = $conn->prepare("select * from iris");

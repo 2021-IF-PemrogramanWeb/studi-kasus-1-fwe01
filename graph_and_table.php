@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['auth_username'])) {
+	header("Location: login.html");
+	die();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -316,7 +324,7 @@
             <b>Version</b> 3.0.5
         </div>
         <strong>Copyright &copy; 2021 <a href="https://frederickwilliame.com">Frederick William E.</a> | Powered by <a
-                href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
+                    href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
         reserved.
     </footer>
 
