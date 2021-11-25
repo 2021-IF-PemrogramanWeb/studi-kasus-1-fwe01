@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (isset($_SESSION['auth_username'])) {
+	header("Location: loggedin.html");
+	die();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
