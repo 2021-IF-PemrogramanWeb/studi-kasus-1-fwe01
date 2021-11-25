@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['auth_username'])) {
-	header("Location: login.html");
+	header("Location: login.php");
 	die();
 }
 ?>
